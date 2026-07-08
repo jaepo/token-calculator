@@ -1,38 +1,33 @@
+import { analyzeCharacters } from './textAnalyzer.js';
+import { TOKEN_COEFFICIENTS } from './tokenStrategies.js';
+
+/**
+ * Analyze language composition of text
+ *
+ * @param {string} text - Text to analyze
+ * @returns {Object} Character counts by type
+ */
 export function analyzeLanguage(text) {
-  if (!text) {
-    return {
-      korean: 0,
-      english: 0,
-      numbers: 0,
-      spaces: 0,
-      special: 0,
-      total: 0
-    };
-  }
+  const chars = analyzeCharacters(text);
 
-  const koreanRegex = /[가-힣]/g;
-  const englishRegex = /[a-zA-Z]/g;
-  const numberRegex = /[0-9]/g;
-  const spaceRegex = /\s/g;
-
-  const korean = text.match(koreanRegex) || [];
-  const english = text.match(englishRegex) || [];
-  const numbers = text.match(numberRegex) || [];
-  const spaces = text.match(spaceRegex) || [];
-
-  const knownChars = korean.length + english.length + numbers.length + spaces.length;
-  const special = text.length - knownChars;
-
+  // Map to legacy property names for backward compatibility
   return {
-    korean: korean.length,
-    english: english.length,
-    numbers: numbers.length,
-    spaces: spaces.length,
-    special: special,
-    total: text.length
+    korean: chars.korean,
+    english: chars.english,
+    numbers: chars.number,  // Note: 'number' -> 'numbers' for backward compatibility
+    spaces: chars.space,     // Note: 'space' -> 'spaces' for backward compatibility
+    special: chars.other,    // Note: 'other' -> 'special' for backward compatibility
+    total: chars.total
   };
 }
 
+/**
+ * Estimate token distribution by language
+ *
+ * @param {Object} chars - Character counts from analyzeLanguage
+ * @param {number} totalTokens - Total token count (if available)
+ * @returns {Object} Estimated tokens by language type
+ */
 export function estimateTokensByLanguage(chars, totalTokens) {
   // If we have actual token count, calculate ratio
   if (totalTokens > 0 && chars.total > 0) {
@@ -45,12 +40,12 @@ export function estimateTokensByLanguage(chars, totalTokens) {
     };
   }
 
-  // Fallback estimation
-  // Korean: ~1.5 tokens per character
-  // English: ~0.25 tokens per character (4 chars = 1 token)
-  const koreanTokens = Math.ceil(chars.korean * 1.5);
-  const englishTokens = Math.ceil(chars.english * 0.25);
-  const otherTokens = Math.ceil((chars.numbers + chars.special + chars.spaces) * 0.3);
+  // Fallback estimation using GPT coefficients (most common)
+  const coeff = TOKEN_COEFFICIENTS.GPT_DETAILED;
+
+  const koreanTokens = Math.ceil(chars.korean * coeff.korean);
+  const englishTokens = Math.ceil(chars.english * coeff.english);
+  const otherTokens = Math.ceil((chars.numbers + chars.special + chars.spaces) * coeff.other);
 
   return {
     korean: koreanTokens,
