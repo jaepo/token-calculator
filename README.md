@@ -151,6 +151,42 @@ src/
 - **DeepSeek V4 Flash**: Input $0.00014/1K | Output $0.00028/1K | Context: 1M tokens
   - 💡 가장 저렴한 모델! 캐시 히트 시 98% 할인
 
+## 🔧 개발자 도구
+
+### 디버깅 에이전트
+
+프로젝트에 전문 디버깅 에이전트가 포함되어 있습니다:
+
+```bash
+# 디버깅 에이전트 사용
+/Agent debugger "API 500 에러 원인 조사"
+```
+
+### 디버그 스킬
+
+빠른 디버깅을 위한 스킬:
+
+```bash
+# 디버그 모드 실행
+.claude/skills/debug.sh
+
+# 특정 체크만 실행
+.claude/skills/debug.sh env      # 환경 체크
+.claude/skills/debug.sh deps     # 의존성 체크
+.claude/skills/debug.sh types    # TypeScript 체크
+.claude/skills/debug.sh logs     # 로그 확인
+.claude/skills/debug.sh fixes    # 빠른 수정 제안
+```
+
+### 주요 기능
+
+- ✅ 환경 변수 및 설정 검증
+- ✅ 의존성 및 취약점 체크
+- ✅ TypeScript 타입 에러 검출
+- ✅ 실행 중인 프로세스 및 포트 확인
+- ✅ 로그 파일 자동 분석
+- ✅ 일반적인 문제 해결 방법 제안
+
 ## 📝 라이선스
 
 MIT License
