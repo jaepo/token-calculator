@@ -27,3 +27,26 @@ dist-ssr
 test-results/
 playwright-report/
 playwright/.cache/
+
+# Environment variables and secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# API keys and credentials
+secrets/
+*.secret
+*.secrets
+credentials/
+*.pem
+*.key
+*.cert
+api-keys/
+*.apikey
+
+# Security
+.aws/
+.ssh/
