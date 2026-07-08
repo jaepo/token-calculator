@@ -1,0 +1,106 @@
+{
+  "hooks": {
+    "postToolUse": [
+      {
+        "description": "Run tests after writing test files",
+        "matcher": {
+          "tool": "Write",
+          "pathPattern": "**/__tests__/**/*.test.{js,jsx,ts,tsx}"
+        },
+        "command": "npm test -- {{file_path}} --passWithNoTests"
+      },
+      {
+        "description": "Run linter after writing source files",
+        "matcher": {
+          "tool": "Write",
+          "pathPattern": "src/**/*.{js,jsx,ts,tsx}"
+        },
+        "command": "npm run lint -- {{file_path}} --fix || true"
+      },
+      {
+        "description": "Show git status after file modifications",
+        "matcher": {
+          "tool": "Write|Edit",
+          "pathPattern": "**/*.{js,jsx,ts,tsx,json,md}"
+        },
+        "command": "git status --short"
+      },
+      {
+        "description": "Type check after editing TypeScript files",
+        "matcher": {
+          "tool": "Edit",
+          "pathPattern": "**/*.{ts,tsx}"
+        },
+        "command": "npm run type-check || tsc --noEmit || true"
+      },
+      {
+        "description": "Auto-format after writing code files",
+        "matcher": {
+          "tool": "Write|Edit",
+          "pathPattern": "src/**/*.{js,jsx,ts,tsx}"
+        },
+        "command": "npx prettier --write {{file_path}}"
+      },
+      {
+        "description": "Show dependency tree after npm install",
+        "matcher": {
+          "tool": "Bash",
+          "commandPattern": "npm install"
+        },
+        "command": "npm ls --depth=0"
+      },
+      {
+        "description": "Show recent commits after git commit",
+        "matcher": {
+          "tool": "Bash",
+          "commandPattern": "git commit"
+        },
+        "command": "git log --oneline -5"
+      },
+      {
+        "description": "Show coverage summary after running tests",
+        "matcher": {
+          "tool": "Bash",
+          "commandPattern": "npm test.*--coverage"
+        },
+        "command": "echo '\n📊 Test Coverage Summary:' && cat coverage/coverage-summary.json 2>/dev/null || echo 'No coverage data found'"
+      },
+      {
+        "description": "Show bundle size after build",
+        "matcher": {
+          "tool": "Bash",
+          "commandPattern": "npm run build|vite build"
+        },
+        "command": "echo '\n📦 Bundle Size:' && du -sh dist/ 2>/dev/null || echo 'Build output not found'"
+      },
+      {
+        "description": "Check for security vulnerabilities after package changes",
+        "matcher": {
+          "tool": "Bash",
+          "commandPattern": "npm (install|update|add)"
+        },
+        "command": "npm audit --audit-level=high | head -20"
+      },
+      {
+        "description": "Show git diff summary after staging files",
+        "matcher": {
+          "tool": "Bash",
+          "commandPattern": "git add"
+        },
+        "command": "git diff --cached --stat"
+      }
+    ]
+  },
+  "permissions": {
+    "allowed": [
+      {
+        "tool": "Bash",
+        "pattern": "^(ls|cat|grep|find|git status|npm test|npm run)"
+      },
+      {
+        "tool": "Read",
+        "pattern": ".*"
+      }
+    ]
+  }
+}

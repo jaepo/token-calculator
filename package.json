@@ -1,0 +1,39 @@
+{
+  "name": "ai-token-counter",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "실시간 프롬프트 토큰 계산 및 API 비용 예측 웹 애플리케이션",
+  "author": "AI Token Counter Team",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report"
+  },
+  "dependencies": {
+    "@anthropic-ai/tokenizer": "^0.0.4",
+    "clsx": "^2.1.1",
+    "js-tiktoken": "^1.0.21",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-icons": "^5.6.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.2",
+    "autoprefixer": "^10.4.20",
+    "oxlint": "^1.69.0",
+    "playwright": "^1.61.1",
+    "postcss": "^8.4.49",
+    "postcss-import": "^16.1.1",
+    "tailwindcss": "^3.4.16",
+    "vite": "^8.1.0"
+  }
+}
